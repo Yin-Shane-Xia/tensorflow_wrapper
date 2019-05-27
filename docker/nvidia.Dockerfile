@@ -1,6 +1,6 @@
 FROM nvidia/cuda:9.0-cudnn7-devel-ubuntu16.04
 
-MAINTAINER compwizk, cding
+#MAINTAINER compwizk, cding
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	apt-transport-https ca-certificates curl wget make cmake unzip git \
@@ -28,10 +28,10 @@ RUN cd /opt && \
 	ln -s /usr/local/include/eigen3 /usr/include/eigen3
 
 # Install GCC-6
-RUN apt-get update && apt-get install -y --no-install-recommends software-properties-common && \
-	add-apt-repository ppa:ubuntu-toolchain-r/test -y && \
-	apt-get update && apt-get install -y --no-install-recommends gcc-6 g++-6 && \
-	update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
+#RUN apt-get update && apt-get install -y --no-install-recommends software-properties-common && \
+#	add-apt-repository ppa:ubuntu-toolchain-r/test -y && \
+#	apt-get update && apt-get install -y --no-install-recommends gcc-6 g++-6 && \
+#	update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
 
 # Install Bazel
 # [requires] build-essential openjdk-8-jdk python zip unzip
@@ -42,6 +42,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends openjdk-8-jdk &
 	cd /opt/bazel && bash ./compile.sh && mv ./output/bazel /usr/local/bin && rm -rf /opt/bazel
 
 # Install Tensorflow
+RUN apt-get update && apt-get install -y --no-install-recommends python-dev python-pip && \
+	pip install -U pip && hash pip && \
+	pip install six numpy wheel mock enum34 setuptools && \
+	pip install keras_applications==1.0.6 --no-deps && \
+	pip install keras_preprocessing==1.0.5 --no-deps
+
 RUN apt-get update && apt-get install -y --no-install-recommends sudo && \
 	cd /opt && git clone https://github.com/cding/tensorflow_wrapper.git && \
 	mkdir -p /opt/tensorflow_wrapper/build && \
