@@ -49,7 +49,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends python-dev pyth
 	pip install keras_preprocessing==1.0.5 --no-deps
 
 RUN apt-get update && apt-get install -y --no-install-recommends sudo && \
-	cd /opt && git clone https://github.com/cding/tensorflow_wrapper.git && \
+	cd /opt && git clone https://github.com/Yin-Shane-Xia/tensorflow_wrapper.git && \
 	mkdir -p /opt/tensorflow_wrapper/build && \
 	cd /opt/tensorflow_wrapper/build && \
 	cmake .. && make && make install && \
