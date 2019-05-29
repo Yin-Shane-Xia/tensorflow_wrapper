@@ -112,10 +112,15 @@ else
 fi
 
 # Configure and build
-bazel build -c opt $config_opts \
-            tensorflow/tools/pip_package:build_pip_package \
-            tensorflow:libtensorflow_cc.so \
-            tensorflow/tools/graph_transforms:transform_graph \
-            tensorflow/tools/graph_transforms:summarize_graph
-
+# bazel build -c opt $config_opts \
+#             tensorflow/tools/pip_package:build_pip_package \
+#             tensorflow:libtensorflow_cc.so \
+#             tensorflow/tools/graph_transforms:transform_graph \
+#             tensorflow/tools/graph_transforms:summarize_graph
+# 
+bazel build -c opt $config_opts --cxxopt="-D_GLIBCXX_USE_CXX11_ABI=0" \
+    tensorflow/tools/pip_package:build_pip_package \
+    tensorflow:libtensorflow_cc.so \
+    tensorflow/tools/graph_transforms:transform_graph \
+    tensorflow/tools/graph_transforms:summarize_graph
 ./bazel-bin/tensorflow/tools/pip_package/build_pip_package ./tmp/tensorflow_pkg
